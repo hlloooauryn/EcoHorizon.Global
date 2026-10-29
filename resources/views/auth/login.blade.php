@@ -12,31 +12,47 @@
                 </p>
             </div>
 
-            <!-- 1-Click Demo Quick Logins for Testing & Assessment -->
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-brand-sky"></span>
-                    Evaluation Demo Accounts (Click to Fill)
+            <!-- 1-Click Role Quick Logins (3 Role: Admin, Staff, User) -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+                    <span class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-brand-sky"></span>
+                        Login 3 Role (Klik untuk Masuk)
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-normal">Pilih Peran</span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div class="grid grid-cols-3 gap-2">
+                    <!-- Role 1: Admin -->
                     <button type="button" 
-                            onclick="fillDemo('admin@ecohorizon.test', 'password123')"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white border border-purple-200 text-purple-700 hover:bg-purple-50 transition-colors shadow-2xs text-center">
-                        Administrator
+                            id="btn-role-admin"
+                            onclick="fillDemo('admin@ecohorizon.test', 'password123', 'admin')"
+                            class="px-2.5 py-2.5 rounded-xl text-xs font-bold bg-white border border-purple-200 text-purple-700 hover:bg-purple-50 transition-all shadow-2xs text-center flex flex-col items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                        <span>Admin</span>
+                        <span class="text-[9px] font-normal text-slate-400">Executive</span>
                     </button>
+                    <!-- Role 2: Staff -->
                     <button type="button" 
-                            onclick="fillDemo('operator@ecohorizon.test', 'password123')"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white border border-sky-200 text-sky-700 hover:bg-sky-50 transition-colors shadow-2xs text-center">
-                        Operator
+                            id="btn-role-staff"
+                            onclick="fillDemo('operator@ecohorizon.test', 'password123', 'staff')"
+                            class="px-2.5 py-2.5 rounded-xl text-xs font-bold bg-white border border-sky-200 text-sky-700 hover:bg-sky-50 transition-all shadow-2xs text-center flex flex-col items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                        <span>Staff</span>
+                        <span class="text-[9px] font-normal text-slate-400">Logistics</span>
                     </button>
+                    <!-- Role 3: User -->
                     <button type="button" 
-                            onclick="fillDemo('customer@globalcargo.test', 'password123')"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-colors shadow-2xs text-center">
-                        Customer
+                            id="btn-role-user"
+                            onclick="fillDemo('customer@globalcargo.test', 'password123', 'user')"
+                            class="px-2.5 py-2.5 rounded-xl text-xs font-bold bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-all shadow-2xs text-center flex flex-col items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>User</span>
+                        <span class="text-[9px] font-normal text-slate-400">Customer</span>
                     </button>
                 </div>
-                <div class="text-[11px] text-slate-400 mt-2 text-center">
-                    Demo Password: <span class="font-mono text-slate-600 font-semibold">password123</span>
+                <div class="text-[11px] text-slate-400 mt-2.5 text-center flex items-center justify-center gap-1">
+                    <span>Default Password:</span>
+                    <span class="font-mono text-slate-700 font-semibold bg-white px-2 py-0.5 rounded border border-slate-200">password123</span>
                 </div>
             </div>
 
@@ -92,9 +108,20 @@
     </div>
 
     <script>
-        function fillDemo(email, password) {
+        function fillDemo(email, password, role) {
             document.getElementById('email').value = email;
             document.getElementById('password').value = password;
+
+            ['admin', 'staff', 'user'].forEach(function(r) {
+                const btn = document.getElementById('btn-role-' + r);
+                if (btn) {
+                    if (r === role) {
+                        btn.classList.add('ring-2', 'ring-brand-sky', 'bg-slate-100');
+                    } else {
+                        btn.classList.remove('ring-2', 'ring-brand-sky', 'bg-slate-100');
+                    }
+                }
+            });
         }
     </script>
 </x-guest-layout>

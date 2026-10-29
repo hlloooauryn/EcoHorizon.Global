@@ -75,12 +75,30 @@ class AuthenticationAndRoleTest extends TestCase
 
     public function test_login_validation_and_session_authentication()
     {
-        $response = $this->post('/login', [
+        // 1. Admin login
+        $responseAdmin = $this->post('/login', [
             'email' => 'admin@ecohorizon.test',
             'password' => 'password123',
         ]);
+        $responseAdmin->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticated();
 
-        $response->assertRedirect(route('admin.dashboard'));
+        // 2. Staff (Operator) login
+        $this->post('/logout');
+        $responseStaff = $this->post('/login', [
+            'email' => 'operator@ecohorizon.test',
+            'password' => 'password123',
+        ]);
+        $responseStaff->assertRedirect(route('operator.dashboard'));
+        $this->assertAuthenticated();
+
+        // 3. User (Customer) login
+        $this->post('/logout');
+        $responseUser = $this->post('/login', [
+            'email' => 'customer@globalcargo.test',
+            'password' => 'password123',
+        ]);
+        $responseUser->assertRedirect(route('customer.dashboard'));
         $this->assertAuthenticated();
     }
 }

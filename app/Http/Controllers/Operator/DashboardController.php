@@ -112,7 +112,7 @@ class DashboardController extends Controller
                 ];
             });
 
-        $recentShipments = Shipment::with(['originLocation', 'destinationLocation', 'serviceLevel', 'transportLegs', 'customerUser'])
+        $recentShipments = Shipment::with(['originLocation', 'destinationLocation', 'serviceLevel', 'transportLegs', 'customer'])
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();

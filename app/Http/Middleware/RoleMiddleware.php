@@ -25,7 +25,22 @@ class RoleMiddleware
 
         $user = auth()->user();
 
-        if (!in_array($user->role, $roles, true)) {
+        // Normalize synonyms (staff <-> operator, user <-> customer)
+        $normalizedUserRole = match ($user->role) {
+            'staff' => 'operator',
+            'user' => 'customer',
+            default => $user->role,
+        };
+
+        $allowedRoles = array_map(function ($r) {
+            return match ($r) {
+                'staff' => 'operator',
+                'user' => 'customer',
+                default => $r,
+            };
+        }, $roles);
+
+        if (!in_array($normalizedUserRole, $allowedRoles, true)) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthorized action for role: ' . $user->role], 403);
             }

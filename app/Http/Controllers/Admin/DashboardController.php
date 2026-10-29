@@ -115,7 +115,7 @@ class DashboardController extends Controller
             ->get();
 
         // Recent Shipments for table
-        $recentShipments = Shipment::with(['originLocation', 'destinationLocation', 'serviceLevel', 'transportLegs', 'customerUser'])
+        $recentShipments = Shipment::with(['originLocation', 'destinationLocation', 'serviceLevel', 'transportLegs', 'customer'])
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();

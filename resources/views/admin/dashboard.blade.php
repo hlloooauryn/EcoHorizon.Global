@@ -245,7 +245,7 @@
                         @forelse($recentShipments as $shipment)
                             @php
                                 $carrierName = $shipment->transportLegs->first()?->carrier_name ?? 'FastShip / Maersk';
-                                $customerName = $shipment->receiver_business_name ?: ($shipment->customerUser?->name ?? 'Global Industries');
+                                $customerName = $shipment->receiver_business_name ?: ($shipment->customer?->name ?? 'Global Industries');
                                 
                                 $statusBadgeClass = match($shipment->current_status) {
                                     'DELIVERED' => 'bg-emerald-500 text-white',

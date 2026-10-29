@@ -42,17 +42,37 @@ class User extends Authenticatable
 
     public function isOperator(): bool
     {
-        return $this->role === 'operator';
+        return in_array($this->role, ['operator', 'staff'], true);
+    }
+
+    public function isStaff(): bool
+    {
+        return $this->isOperator();
     }
 
     public function isCustomer(): bool
     {
-        return $this->role === 'customer';
+        return in_array($this->role, ['customer', 'user'], true);
+    }
+
+    public function isUser(): bool
+    {
+        return $this->isCustomer();
+    }
+
+    public function getRoleDisplayNameAttribute(): string
+    {
+        return match ($this->role) {
+            'admin' => 'Admin',
+            'operator', 'staff' => 'Staff',
+            'customer', 'user' => 'User',
+            default => ucfirst($this->role),
+        };
     }
 
     public function canManageShipments(): bool
     {
-        return in_array($this->role, ['admin', 'operator'], true);
+        return in_array($this->role, ['admin', 'operator', 'staff'], true);
     }
 
     public function shipments(): HasMany
