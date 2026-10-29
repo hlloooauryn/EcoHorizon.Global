@@ -49,3 +49,4 @@ class TrackingEventController extends Controller
         return back()->with('success', "Tracking event recorded. Status updated to {$validated['new_status']}.");
     }
 }
+

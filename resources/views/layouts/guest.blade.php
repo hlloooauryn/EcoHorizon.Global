@@ -15,6 +15,16 @@
 
     <!-- Styles & Scripts via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Pre-load SVG & Layout Constraints (FOUC Prevention) -->
+    <style>
+        svg { max-width: 100%; display: inline-block; vertical-align: middle; }
+        .h-9 { height: 2.25rem; }
+        .w-6 { width: 1.5rem; }
+        .h-6 { height: 1.5rem; }
+        .w-4 { width: 1rem; }
+        .h-4 { height: 1rem; }
+    </style>
 </head>
 <body class="min-h-full flex flex-col bg-[#F8FAFC] text-[#0F172A] font-sans antialiased selection:bg-brand-teal selection:text-white">
 
@@ -140,3 +150,4 @@
     </footer>
 </body>
 </html>
+

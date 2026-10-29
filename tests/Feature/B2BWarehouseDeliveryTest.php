@@ -90,3 +90,4 @@ class B2BWarehouseDeliveryTest extends TestCase
         $this->assertEquals('COMPLETED', $shipment->transportLegs->first()->status);
     }
 }
+

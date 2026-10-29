@@ -46,3 +46,4 @@ class DistanceCalculationService
         return round($straightDistance * $multiplier, 2);
     }
 }
+

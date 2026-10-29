@@ -34,3 +34,4 @@ class CarbonEmissionFactor extends Model
         return $this->hasMany(TransportLeg::class, 'emission_factor_id');
     }
 }
+

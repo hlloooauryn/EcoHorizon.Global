@@ -106,3 +106,4 @@ class TransportLegController extends Controller
         return back()->with('success', "Transport Leg {$leg->sequence_number} updated.");
     }
 }
+

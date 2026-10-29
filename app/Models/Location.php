@@ -53,3 +53,4 @@ class Location extends Model
         return $this->hasMany(TransportLeg::class, 'destination_location_id');
     }
 }
+

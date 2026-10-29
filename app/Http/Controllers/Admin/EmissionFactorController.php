@@ -42,3 +42,4 @@ class EmissionFactorController extends Controller
         return redirect()->route('admin.emission-factors.index')->with('success', "Emission factor updated.");
     }
 }
+

@@ -43,3 +43,4 @@ class DeliveryConfirmationController extends Controller
         return back()->with('success', "Final delivery confirmed and verified for shipment {$shipment->tracking_number}.");
     }
 }
+

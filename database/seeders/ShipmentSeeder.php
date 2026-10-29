@@ -544,3 +544,4 @@ class ShipmentSeeder extends Seeder
         CarbonEmissionCalculatorService::recalculateShipmentEmissions($s4);
     }
 }
+

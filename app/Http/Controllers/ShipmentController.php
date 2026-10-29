@@ -348,3 +348,4 @@ class ShipmentController extends Controller
             ->with('success', "Shipment {$tracking} was soft-deleted.");
     }
 }
+

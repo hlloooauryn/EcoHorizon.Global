@@ -347,3 +347,4 @@ class ShipmentApiController extends Controller
         ]);
     }
 }
+

@@ -22,3 +22,4 @@ class TrackingNumberGenerator
         return $trackingNumber;
     }
 }
+

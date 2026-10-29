@@ -160,3 +160,4 @@ class ShipmentLifecycleTest extends TestCase
         $this->assertFalse($shipment->isDelivered());
     }
 }
+

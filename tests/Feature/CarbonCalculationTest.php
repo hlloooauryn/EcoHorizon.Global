@@ -100,3 +100,4 @@ class CarbonCalculationTest extends TestCase
         $this->assertEquals($expectedLegCo2e, $shipment->total_estimated_co2e_kg);
     }
 }
+

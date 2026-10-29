@@ -244,3 +244,4 @@ Every sensitive business operation triggers an immutable `AuditLog` entry storin
 - `old_values` & `new_values`: JSON attribute snapshots.
 - `ip_address` & `user_agent`: Originating HTTP request metadata.
 - `created_at`: Immutable timestamp.
+

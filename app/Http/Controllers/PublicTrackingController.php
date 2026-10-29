@@ -94,3 +94,4 @@ class PublicTrackingController extends Controller
         return view('tracking.show', compact('shipment', 'weatherData', 'mapRoute'));
     }
 }
+

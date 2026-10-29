@@ -37,3 +37,4 @@ class SustainabilityController extends Controller
         ));
     }
 }
+

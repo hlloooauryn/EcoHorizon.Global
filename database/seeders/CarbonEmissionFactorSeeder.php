@@ -91,3 +91,4 @@ class CarbonEmissionFactorSeeder extends Seeder
         }
     }
 }
+

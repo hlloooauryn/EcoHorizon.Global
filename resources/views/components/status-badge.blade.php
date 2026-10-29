@@ -87,3 +87,4 @@
     <span class="w-1.5 h-1.5 rounded-full {{ $config['dot'] }}"></span>
     <span>{{ $config['label'] }}</span>
 </span>
+

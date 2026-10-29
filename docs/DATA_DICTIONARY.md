@@ -273,3 +273,4 @@ Provides an immutable compliance trail of state modifications and sensitive oper
    - Leg emissions = $\frac{\text{Weight (t)} \times \text{Distance (km)} \times \text{Emission Factor (g/t-km)}}{1000}$.
    - Shipment emissions = $\sum \text{Leg Emissions}$.
    - All factors retain scientific citations (`GLEC Framework v3.0`, `IMO MEPC.308(73)`).
+

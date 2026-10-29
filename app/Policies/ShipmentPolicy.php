@@ -69,3 +69,4 @@ class ShipmentPolicy
         return in_array($user->role, ['admin', 'operator'], true);
     }
 }
+

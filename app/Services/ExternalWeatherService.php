@@ -76,3 +76,4 @@ class ExternalWeatherService
         return $windSpeed >= 55 || in_array($code, [45, 48, 65, 75, 82, 95, 96, 99], true);
     }
 }
+
