@@ -1,0 +1,35 @@
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-brand-teal selection:text-white;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+}
+
+.leaflet-container {
+    font-family: inherit;
+    z-index: 10;
+}
+
+.custom-pulse-dot {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.custom-pulse-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}

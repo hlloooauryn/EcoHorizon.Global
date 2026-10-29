@@ -1,0 +1,336 @@
+{
+  "info": {
+    "name": "EcoHorizon Global REST API v1",
+    "_postman_id": "ecohorizon-global-api-v1",
+    "description": "Postman API Collection for EcoHorizon Global — Global Multimodal Freight Visibility Platform. Includes Public Tracking, Authentication, Consignments, Milestone Tracking, Exception Logging, and Carbon Accounting.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Public Endpoints",
+      "item": [
+        {
+          "name": "Public Track Shipment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/track/EHG-20261029-JKTMUC",
+              "host": ["{{baseUrl}}"],
+              "path": ["track", "EHG-20261029-JKTMUC"]
+            },
+            "description": "Retrieve sanitized public tracking status, milestones, map waypoints, and carbon estimates without authentication."
+          }
+        },
+        {
+          "name": "List Service Levels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reference/service-levels",
+              "host": ["{{baseUrl}}"],
+              "path": ["reference", "service-levels"]
+            }
+          }
+        },
+        {
+          "name": "List Facilities & Ports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reference/locations",
+              "host": ["{{baseUrl}}"],
+              "path": ["reference", "locations"]
+            }
+          }
+        },
+        {
+          "name": "List Carbon Emission Factors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reference/emission-factors",
+              "host": ["{{baseUrl}}"],
+              "path": ["reference", "emission-factors"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login as Operator",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"operator@ecohorizon.test\",\n    \"password\": \"password123\",\n    \"device_name\": \"Postman Integration Test\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Authenticated User Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shipment Management",
+      "item": [
+        {
+          "name": "List Authorized Shipments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/shipments?status=IN_TRANSIT",
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "IN_TRANSIT"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Multimodal Shipment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"service_level_id\": 1,\n    \"destination_type\": \"door_address\",\n    \"origin_location_id\": 1,\n    \"destination_location_id\": 4,\n    \"sender_business_name\": \"PT Nusantara Solusi Ekspor\",\n    \"sender_contact_name\": \"Budi Santoso\",\n    \"sender_phone\": \"+62 812 9988 7766\",\n    \"sender_address\": \"Kawasan Berikat Nusantara, Tanjung Priok, Jakarta\",\n    \"receiver_business_name\": \"Rotterdam Clean Energy BV\",\n    \"receiver_contact_name\": \"Jan van Dijk\",\n    \"receiver_phone\": \"+31 10 9988 776\",\n    \"receiver_address\": \"Maasvlakte II Logistics Avenue 12, Rotterdam, Netherlands\",\n    \"cargo_description\": \"Smart Energy Battery Inverters\",\n    \"cargo_weight_tonnes\": 18.5,\n    \"package_count\": 24,\n    \"package_type\": \"Industrial Euro Pallets\",\n    \"initial_leg_mode\": \"sea\",\n    \"initial_carrier_name\": \"Maersk Triple-E Vessel\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shipments",
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments"]
+            }
+          }
+        },
+        {
+          "name": "Get Shipment Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/shipments/EHG-20261029-JKTMUC",
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", "EHG-20261029-JKTMUC"]
+            }
+          }
+        },
+        {
+          "name": "Record Tracking Event",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"event_type\": \"WAYPOINT_CHECKPOINT\",\n    \"new_status\": \"IN_TRANSIT\",\n    \"location_name\": \"Suez Canal Northbound Checkpoint\",\n    \"description\": \"Vessel convoy exited Great Bitter Lake. Speed 8.5 knots.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shipments/EHG-20261029-SHARTM/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", "EHG-20261029-SHARTM", "events"]
+            }
+          }
+        },
+        {
+          "name": "Get Estimated Emissions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/shipments/EHG-20261029-JKTMUC/emissions",
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", "EHG-20261029-JKTMUC", "emissions"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
