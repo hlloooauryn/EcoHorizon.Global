@@ -33,6 +33,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // =============================================================================
 Route::middleware('auth')->group(function () {
 
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        return match ($user->role) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'operator' => redirect()->route('operator.dashboard'),
+            'customer' => redirect()->route('customer.dashboard'),
+            default => redirect()->route('home'),
+        };
+    })->name('dashboard');
+
     // Common Freight Registry & Cockpit
     Route::resource('shipments', ShipmentController::class);
     Route::post('/shipments/{shipment}/legs', [TransportLegController::class, 'store'])->name('transport-legs.store');

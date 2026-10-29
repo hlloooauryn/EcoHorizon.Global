@@ -48,14 +48,86 @@ class DashboardController extends Controller
             ->orderBy('updated_at', 'desc')
             ->paginate(10);
 
+        $totalShipments = Shipment::count();
+        $inTransit = Shipment::whereIn('current_status', ['IN_TRANSIT', 'PICKED_UP', 'OUT_FOR_DELIVERY'])->count();
+        $delivered = Shipment::where('current_status', 'DELIVERED')->count();
+        $delayedCount = $delayedShipments->count();
+        $openExceptions = $activeExceptions->count();
+
+        $stats = [
+            'total_shipments' => $totalShipments,
+            'in_transit' => $inTransit,
+            'delivered' => $delivered,
+            'delayed' => $delayedCount,
+            'critical_exceptions' => $openExceptions,
+            'open_exceptions' => $openExceptions,
+        ];
+
+        // Carrier Delay Rates
+        $carrierStats = [
+            ['name' => 'FastShip / Maersk', 'rate' => 22, 'color' => '#0284C7'],
+            ['name' => 'CargoPro / DHL', 'rate' => 36, 'color' => '#14B8A6'],
+            ['name' => 'Logistics Partners', 'rate' => 42, 'color' => '#F59E0B'],
+        ];
+
+        // Map Routes Data
+        $mapShipments = Shipment::with(['originLocation', 'destinationLocation', 'transportLegs.originLocation', 'transportLegs.destinationLocation'])
+            ->whereNotIn('current_status', ['CANCELLED'])
+            ->get()
+            ->map(function ($s) {
+                return [
+                    'tracking_number' => $s->tracking_number,
+                    'status' => $s->current_status,
+                    'origin' => [
+                        'name' => $s->originLocation->name,
+                        'city' => $s->originLocation->city,
+                        'lat' => (float) $s->originLocation->latitude,
+                        'lon' => (float) $s->originLocation->longitude,
+                    ],
+                    'destination' => [
+                        'name' => $s->destinationLocation->name,
+                        'city' => $s->destinationLocation->city,
+                        'lat' => (float) $s->destinationLocation->latitude,
+                        'lon' => (float) $s->destinationLocation->longitude,
+                    ],
+                    'carrier' => $s->transportLegs->first()?->carrier_name ?? 'EcoHorizon Logistics',
+                    'legs' => $s->transportLegs->map(function ($leg) {
+                        return [
+                            'mode' => $leg->transport_mode,
+                            'carrier' => $leg->carrier_name,
+                            'origin' => [
+                                'name' => $leg->originLocation->name,
+                                'city' => $leg->originLocation->city,
+                                'lat' => (float) $leg->originLocation->latitude,
+                                'lon' => (float) $leg->originLocation->longitude,
+                            ],
+                            'destination' => [
+                                'name' => $leg->destinationLocation->name,
+                                'city' => $leg->destinationLocation->city,
+                                'lat' => (float) $leg->destinationLocation->latitude,
+                                'lon' => (float) $leg->destinationLocation->longitude,
+                            ],
+                        ];
+                    }),
+                ];
+            });
+
+        $recentShipments = Shipment::with(['originLocation', 'destinationLocation', 'serviceLevel', 'transportLegs', 'customerUser'])
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
+
         return view('operator.dashboard', compact(
             'upcomingArrivals',
             'delayedShipments',
             'awaitingPickup',
             'activeExceptions',
             'recentEvents',
-            'activeShipments'
+            'activeShipments',
+            'stats',
+            'carrierStats',
+            'mapShipments',
+            'recentShipments'
         ));
     }
 }
-
