@@ -55,16 +55,22 @@ The platform features a **calm, clean, and modern blue-green palette** evoking o
 
 ---
 
-## 4. Pre-Configured Demo Accounts
+## 4. Pre-Configured Demo Accounts (3 Roles)
 
-The database seeder provisions four comprehensive accounts with 1-click login buttons on the login page:
+Halaman login dirancang sebagai **Enterprise Portal Login manual penuh** (tanpa tombol demo publik di antarmuka). Gunakan kredensial berikut untuk masuk sesuai dengan 3 peran pengguna:
 
-| Role | Email Address | Password | Permissions & Dashboard |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@ecohorizon.test` | `password123` | System KPI metrics, Chart.js analytics, User Management, GLEC Factor Config, Audit Trail. |
-| **Logistics Operator** | `operator@ecohorizon.test` | `password123` | Operational Cockpit, Consignment CRUD, Multimodal Leg Reordering, Event Logging, Exception Resolution, Proof of Delivery. |
-| **Customer (Shipper)** | `customer@globalcargo.test` | `password123` | Authorized Shipment Tracking, Download Manifests, Carbon Footprint Summary. |
-| **Customer (B2B Buyer)**| `buyer@bavariaindustries.de` | `password123` | Consignee Portal, B2B Warehouse Dock Confirmations, ETA Monitoring. |
+| Role | Alias | Email Address | Password | Landing Dashboard | Deskripsi Wewenang |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Administrator** | Admin | `admin@ecohorizon.test` | `password123` | `/admin/dashboard` | Akses penuh: KPI metrik global, analitik Chart.js, manajemen user & peran, GLEC carbon factors, audit trails. |
+| **Logistics Operator** | Staff | `operator@ecohorizon.test` | `password123` | `/operator/dashboard` | Akses staf operasional: Konsinyasi CRUD, update kaki rute (legs), pencatatan event & delay, resolusi exception, validasi POD. |
+| **Customer** | User | `customer@globalcargo.test` | `password123` | `/customer/dashboard` | Akses pengguna/pengirim: Pelacakan kiriman resmi, transparansi status leg, estimasi jejak karbon (CO₂e). |
+| *B2B Consignee* | User | `buyer@bavariaindustries.de` | `password123` | `/customer/dashboard` | Akses penerima kargo B2B: Pemantauan ETA gudang tujuan & konfirmasi serah terima dok. |
+
+> **Catatan Penggunaan Login**:
+> 1. Buka rute `/login`.
+> 2. Ketikkan **Email Address** dan **Password** secara manual sesuai tabel di atas.
+> 3. Browser mendukung *autofill*, riwayat peramban, dan opsi centang **"Remember this device"**.
+> 4. Sistem secara otomatis melakukan pengalihan server-side (*server-side role redirection*) ke dashboard masing-masing peran.
 
 ---
 
