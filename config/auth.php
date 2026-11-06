@@ -112,4 +112,21 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Pre-Configured Demo Account Passwords
+    |--------------------------------------------------------------------------
+    |
+    | Default passwords used by Database Seeders for testing, academic defense,
+    | and local development. These are loaded securely from environment variables.
+    |
+    */
+
+    'demo_passwords' => [
+        'default' => env('DEMO_USER_PASSWORD', 'password123'),
+        'admin' => env('ADMIN_DEFAULT_PASSWORD', env('DEMO_USER_PASSWORD', 'password123')),
+        'operator' => env('OPERATOR_DEFAULT_PASSWORD', env('DEMO_USER_PASSWORD', 'password123')),
+        'customer' => env('CUSTOMER_DEFAULT_PASSWORD', env('DEMO_USER_PASSWORD', 'password123')),
+    ],
+
 ];

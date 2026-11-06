@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             ['email' => 'admin@ecohorizon.test'],
             [
                 'name' => 'Alexander Vance',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make(config('auth.demo_passwords.admin', 'password123')),
                 'role' => 'admin',
                 'company_name' => 'EcoHorizon Global HQ',
                 'phone' => '+62 21 5550 1201',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             ['email' => 'operator@ecohorizon.test'],
             [
                 'name' => 'Sarah Jenkins',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make(config('auth.demo_passwords.operator', 'password123')),
                 'role' => 'operator',
                 'company_name' => 'EcoHorizon Operations Hub',
                 'phone' => '+62 21 5550 1202',
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             ['email' => 'customer@globalcargo.test'],
             [
                 'name' => 'Budi Pratama',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make(config('auth.demo_passwords.customer', 'password123')),
                 'role' => 'customer',
                 'company_name' => 'PT Nusantara Global Export',
                 'phone' => '+62 812 3456 7890',
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             ['email' => 'buyer@bavariaindustries.de'],
             [
                 'name' => 'Klaus Schneider',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make(config('auth.demo_passwords.customer', 'password123')),
                 'role' => 'customer',
                 'company_name' => 'Bavaria Automotive GmbH',
                 'phone' => '+49 89 2345 6789',

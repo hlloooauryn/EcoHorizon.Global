@@ -13,8 +13,17 @@ class ExternalWeatherService
      */
     public static function getWeather(float $lat, float $lon): array
     {
+        $apiUrl = config('services.open_meteo.url', 'https://api.open-meteo.com/v1/forecast');
+        $timeout = (int) config('services.open_meteo.timeout', 3);
+        $apiKey = config('services.open_meteo.api_key');
+
         try {
-            $response = Http::timeout(3)->get('https://api.open-meteo.com/v1/forecast', [
+            $request = Http::timeout($timeout);
+            if (!empty($apiKey)) {
+                $request = $request->withHeaders(['X-Api-Key' => $apiKey]);
+            }
+
+            $response = $request->get($apiUrl, [
                 'latitude' => round($lat, 4),
                 'longitude' => round($lon, 4),
                 'current_weather' => 'true',

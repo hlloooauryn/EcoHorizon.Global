@@ -375,9 +375,9 @@
                 scrollWheelZoom: false,
             }).setView([mapData[0].origin.lat, mapData[0].origin.lon], 4);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            L.tileLayer('{{ config('services.maps.tile_url', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') }}', {
                 maxZoom: 18,
-                attribution: '&copy; OpenStreetMap contributors'
+                attribution: '{!! addslashes(config('services.maps.attribution', '&copy; OpenStreetMap contributors')) !!}'
             }).addTo(map);
 
             const bounds = [];

@@ -424,10 +424,10 @@
 
                 L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-                // OpenStreetMap Tile Layer
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                // Configurable Map Tile Layer
+                L.tileLayer('{{ config('services.maps.tile_url', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') }}', {
                     maxZoom: 18,
-                    attribution: '&copy; OpenStreetMap'
+                    attribution: '{!! addslashes(config('services.maps.attribution', '&copy; OpenStreetMap contributors')) !!}'
                 }).addTo(map);
 
                 const mapShipments = @json($mapShipments ?? []);
