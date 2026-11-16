@@ -2,7 +2,7 @@
 
 @php
     $config = match($status) {
-        'DELIVERED' => [
+        'DELIVERED', 'ARRIVED_AT_DESTINATION', 'DELIVERED_TO_WAREHOUSE' => [
             'bg' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
             'dot' => 'bg-emerald-500',
             'label' => 'Delivered',
@@ -15,8 +15,8 @@
             'icon' => 'truck'
         ],
         'IN_TRANSIT' => [
-            'bg' => 'bg-sky-50 text-sky-700 border-sky-200',
-            'dot' => 'bg-sky-500 animate-pulse',
+            'bg' => 'bg-blue-50 text-blue-700 border-blue-200',
+            'dot' => 'bg-[#2563EB] animate-pulse',
             'label' => 'In Transit',
             'icon' => 'navigation'
         ],
@@ -45,28 +45,34 @@
             'icon' => 'shield'
         ],
         'AWAITING_CUSTOMER_PICKUP' => [
-            'bg' => 'bg-amber-50 text-amber-800 border-amber-200',
-            'dot' => 'bg-amber-500',
+            'bg' => 'bg-amber-50 text-amber-700 border-amber-200',
+            'dot' => 'bg-[#F59E0B]',
             'label' => 'Awaiting Pickup',
             'icon' => 'clock'
         ],
         'DELAYED' => [
-            'bg' => 'bg-amber-50 text-amber-800 border-amber-300',
-            'dot' => 'bg-amber-500 animate-ping',
+            'bg' => 'bg-amber-50 text-amber-700 border-amber-200',
+            'dot' => 'bg-[#F59E0B] animate-ping',
             'label' => 'Delayed',
             'icon' => 'alert-triangle'
         ],
-        'DELIVERY_EXCEPTION' => [
-            'bg' => 'bg-red-50 text-red-800 border-red-300',
-            'dot' => 'bg-red-500 animate-ping',
+        'CRITICAL_EXCEPTION', 'DELIVERY_EXCEPTION' => [
+            'bg' => 'bg-red-50 text-red-700 border-red-200',
+            'dot' => 'bg-[#EF4444] animate-ping',
             'label' => 'Exception Active',
             'icon' => 'alert-octagon'
         ],
         'BOOKED' => [
-            'bg' => 'bg-slate-100 text-slate-700 border-slate-200',
-            'dot' => 'bg-slate-400',
-            'label' => 'Booking Confirmed',
+            'bg' => 'bg-indigo-50 text-indigo-700 border-indigo-200',
+            'dot' => 'bg-indigo-500',
+            'label' => 'Booked',
             'icon' => 'bookmark'
+        ],
+        'CREATED' => [
+            'bg' => 'bg-slate-100 text-slate-700 border-slate-200',
+            'dot' => 'bg-slate-500',
+            'label' => 'Created',
+            'icon' => 'plus-circle'
         ],
         'CANCELLED' => [
             'bg' => 'bg-gray-100 text-gray-600 border-gray-200',
@@ -85,6 +91,5 @@
 
 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border {{ $config['bg'] }}">
     <span class="w-1.5 h-1.5 rounded-full {{ $config['dot'] }}"></span>
-    <span>{{ $config['label'] }}</span>
+    <span>{{ __($config['label']) }}</span>
 </span>
-

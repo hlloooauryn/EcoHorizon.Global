@@ -11,10 +11,10 @@ class ServiceLevelSeeder extends Seeder
     {
         $levels = [
             [
-                'code' => 'DOOR_TO_DOOR',
-                'name' => 'Door-to-Door Delivery',
-                'description' => 'Complete end-to-end multimodal logistics from shipper doorstep to recipient premises, including first-mile collection, international transit, and final-mile proof of delivery.',
-                'icon' => 'home',
+                'code' => 'B2B',
+                'name' => 'B2B / Warehouse Delivery',
+                'description' => 'Commercial shipment directly delivered to enterprise distribution centers, fulfillment warehouses, or business yards with mandatory receiving dock verification and goods receipt slip.',
+                'icon' => 'building',
                 'requires_pickup' => true,
                 'requires_recipient_delivery' => true,
                 'is_active' => true,
@@ -37,19 +37,18 @@ class ServiceLevelSeeder extends Seeder
                 'requires_recipient_delivery' => false,
                 'is_active' => true,
             ],
-            [
-                'code' => 'B2B',
-                'name' => 'B2B / Warehouse Delivery',
-                'description' => 'Commercial shipment directly delivered to enterprise distribution centers, fulfillment warehouses, or business yards with mandatory receiving dock verification and goods receipt slip.',
-                'icon' => 'building',
-                'requires_pickup' => true,
-                'requires_recipient_delivery' => true,
-                'is_active' => true,
-            ],
         ];
 
+        // Ensure legacy DOOR_TO_DOOR is cleaned up and reassigned
+        $b2bLevel = ServiceLevel::where('code', 'B2B')->first();
+        $legacyDoor = ServiceLevel::where('code', 'DOOR_TO_DOOR')->first();
+        if ($legacyDoor && $b2bLevel) {
+            \App\Models\Shipment::where('service_level_id', $legacyDoor->id)->update(['service_level_id' => $b2bLevel->id]);
+            $legacyDoor->delete();
+        }
+
         foreach ($levels as $level) {
-            ServiceLevel::firstOrCreate(['code' => $level['code']], $level);
+            ServiceLevel::updateOrCreate(['code' => $level['code']], $level);
         }
     }
 }

@@ -1,29 +1,33 @@
-<x-app-layout title="System Audit Trail — EcoHorizon Global">
+<x-app-layout :title="__('System Audit Trail — EcoHorizon Global')">
+    <x-slot:header>
+        {{ __('Reports') }}
+    </x-slot:header>
+
     <div class="space-y-6">
 
         <div class="pb-4 border-b border-slate-200">
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">System Audit Trail Logs</h1>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">{{ __('System Audit Trail Logs') }}</h1>
             <p class="text-sm text-slate-500 mt-1">
-                Tamper-evident chronological audit logs of all status transitions, exception reports, and freight dispatches.
+                {{ __('Tamper-evident chronological audit logs of all status transitions, exception reports, and freight dispatches.') }}
             </p>
         </div>
 
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
             <form action="{{ route('admin.audit-logs.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
                 <div class="relative flex-1 min-w-[200px]">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search description or tracking #..." 
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('Search description or tracking #...') }}" 
                            class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-sky bg-slate-50">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
 
                 <select name="action" class="py-2 px-3 text-xs rounded-xl border border-slate-300 bg-slate-50">
-                    <option value="">All Actions</option>
+                    <option value="">{{ __('All Actions') }}</option>
                     @foreach($actions as $act)
                         <option value="{{ $act }}" {{ request('action') === $act ? 'selected' : '' }}>{{ $act }}</option>
                     @endforeach
                 </select>
 
-                <button type="submit" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-sky text-white">Filter</button>
+                <button type="submit" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-sky text-white">{{ __('Filter') }}</button>
             </form>
         </div>
 
@@ -32,11 +36,11 @@
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
-                            <th class="py-3 px-4">Timestamp (UTC)</th>
-                            <th class="py-3 px-4">Action</th>
-                            <th class="py-3 px-4">Responsible User</th>
-                            <th class="py-3 px-4">Description</th>
-                            <th class="py-3 px-4">IP Address</th>
+                            <th class="py-3 px-4">{{ __('Timestamp (UTC)') }}</th>
+                            <th class="py-3 px-4">{{ __('Action') }}</th>
+                            <th class="py-3 px-4">{{ __('Responsible User') }}</th>
+                            <th class="py-3 px-4">{{ __('Description') }}</th>
+                            <th class="py-3 px-4">{{ __('IP Address') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
@@ -52,7 +56,7 @@
                                     </span>
                                 </td>
                                 <td class="py-3 px-4 font-medium text-slate-800">
-                                    {{ $log->user?->name ?? 'System Guest' }}
+                                    {{ $log->user?->name ?? __('System Guest') }}
                                     <span class="block text-[10px] text-slate-400 font-mono">{{ $log->user?->email }}</span>
                                 </td>
                                 <td class="py-3 px-4 text-slate-700 leading-relaxed">{{ $log->description }}</td>
@@ -60,7 +64,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="py-8 text-center text-xs text-slate-400">No audit records match criteria.</td>
+                                <td colspan="5" class="py-8 text-center text-xs text-slate-400">{{ __('No audit records match criteria.') }}</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -76,4 +80,3 @@
 
     </div>
 </x-app-layout>
-

@@ -23,7 +23,7 @@ class PublicTrackingViewTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('EHG-20261029-JKTMUC');
-        $response->assertSee('Door-to-Door');
+        $response->assertSee('Warehouse Delivery');
         $response->assertSee('Tanjung Priok');
         $response->assertSee('Singapore');
         $response->assertSee('Frankfurt');
@@ -49,7 +49,7 @@ class PublicTrackingViewTest extends TestCase
 
     public function test_sustainability_dashboard_renders_for_authenticated_users(): void
     {
-        $customer = User::where('email', 'customer@globalcargo.test')->first();
+        $customer = User::where('email', 'customer@globalcargo.com')->first();
 
         $response = $this->actingAs($customer)->get('/sustainability');
 

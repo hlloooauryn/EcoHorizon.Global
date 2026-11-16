@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('service_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique(); // DOOR_TO_DOOR, DOOR_TO_PORT, PORT_TO_PORT, B2B
+            $table->string('code')->unique(); // B2B, DOOR_TO_PORT, PORT_TO_PORT
             $table->string('name');
             $table->text('description');
             $table->string('icon')->nullable();

@@ -31,14 +31,14 @@ class ApiShipmentTest extends TestCase
 
     public function test_public_api_tracking_endpoint()
     {
-        $doorToDoor = ServiceLevel::where('code', 'DOOR_TO_DOOR')->first();
+        $b2bLevel = ServiceLevel::where('code', 'B2B')->first();
         $loc1 = Location::first();
         $loc2 = Location::skip(1)->first();
 
         $shipment = Shipment::create([
             'tracking_number' => 'EHG-TEST-PUBLIC-01',
-            'service_level_id' => $doorToDoor->id,
-            'destination_type' => 'door_address',
+            'service_level_id' => $b2bLevel->id,
+            'destination_type' => 'business_warehouse',
             'origin_location_id' => $loc1->id,
             'destination_location_id' => $loc2->id,
             'sender_business_name' => 'Public Shipper',
@@ -70,7 +70,7 @@ class ApiShipmentTest extends TestCase
     {
         // 1. API Login
         $loginResponse = $this->postJson('/api/v1/auth/login', [
-            'email' => 'operator@ecohorizon.test',
+            'email' => 'operator@ecohorizon.com',
             'password' => 'password123',
         ]);
 
@@ -87,14 +87,14 @@ class ApiShipmentTest extends TestCase
         $token = $loginResponse->json('data.token');
 
         // 2. Dispatch Shipment via API with Bearer token
-        $doorToDoor = ServiceLevel::where('code', 'DOOR_TO_DOOR')->first();
+        $b2bLevel = ServiceLevel::where('code', 'B2B')->first();
         $loc1 = Location::first();
         $loc2 = Location::skip(1)->first();
 
         $createResponse = $this->withHeader('Authorization', 'Bearer ' . $token)
             ->postJson('/api/v1/shipments', [
-                'service_level_id' => $doorToDoor->id,
-                'destination_type' => 'door_address',
+                'service_level_id' => $b2bLevel->id,
+                'destination_type' => 'business_warehouse',
                 'origin_location_id' => $loc1->id,
                 'destination_location_id' => $loc2->id,
                 'sender_business_name' => 'API Exporter Ltd',
@@ -125,10 +125,10 @@ class ApiShipmentTest extends TestCase
 
     public function test_customer_cannot_access_unauthorized_shipment_via_api()
     {
-        $customer1 = User::where('email', 'customer@globalcargo.test')->first();
+        $customer1 = User::where('email', 'customer@globalcargo.com')->first();
         $customer2 = User::where('email', 'buyer@bavariaindustries.de')->first();
 
-        $doorToDoor = ServiceLevel::where('code', 'DOOR_TO_DOOR')->first();
+        $b2bLevel = ServiceLevel::where('code', 'B2B')->first();
         $loc1 = Location::first();
         $loc2 = Location::skip(1)->first();
 
@@ -136,8 +136,8 @@ class ApiShipmentTest extends TestCase
         $shipmentCustomer2 = Shipment::create([
             'tracking_number' => 'EHG-CUST2-SECRET-01',
             'customer_user_id' => $customer2->id,
-            'service_level_id' => $doorToDoor->id,
-            'destination_type' => 'door_address',
+            'service_level_id' => $b2bLevel->id,
+            'destination_type' => 'business_warehouse',
             'origin_location_id' => $loc1->id,
             'destination_location_id' => $loc2->id,
             'sender_business_name' => 'Sender C2',
@@ -155,7 +155,7 @@ class ApiShipmentTest extends TestCase
 
         // Login as Customer 1
         $loginResponse = $this->postJson('/api/v1/auth/login', [
-            'email' => 'customer@globalcargo.test',
+            'email' => 'customer@globalcargo.com',
             'password' => 'password123',
         ]);
         $token = $loginResponse->json('data.token');

@@ -146,18 +146,9 @@ class ShipmentLifecycleService
 
         // 2. B2B Warehouse delivery check
         if ($serviceCode === 'B2B' || in_array($destType, ['business_warehouse', 'fulfillment_center'], true)) {
-            if (empty($eventData['receiver_name'])) {
-                throw ValidationException::withMessages([
-                    'receiver_name' => 'B2B warehouse receiving requires the name of the warehouse receiving officer or dock manager.',
-                ]);
-            }
-        }
-
-        // 3. Door-to-Door check
-        if ($serviceCode === 'DOOR_TO_DOOR') {
             if (empty($eventData['receiver_name']) && empty($shipment->proof_of_delivery_receiver_name)) {
                 throw ValidationException::withMessages([
-                    'receiver_name' => 'Door-to-door delivery confirmation requires the recipient or authorized agent name.',
+                    'receiver_name' => 'B2B warehouse receiving requires the name of the warehouse receiving officer or dock manager.',
                 ]);
             }
         }

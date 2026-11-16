@@ -39,24 +39,26 @@
 
                 <!-- Nav Links -->
                 <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
-                    <a href="{{ route('home') }}#track" class="hover:text-brand-sky transition-colors flex items-center gap-1.5">
+                    <a href="{{ route('home') }}#track" onclick="setTimeout(() => { const el = document.getElementById('tracking-search-input'); if(el) el.focus(); }, 150)" class="hover:text-brand-sky transition-colors flex items-center gap-1.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        Track Shipment
+                        {{ __('Track Shipment') }}
                     </a>
-                    <a href="{{ route('home') }}#multimodal" class="hover:text-brand-sky transition-colors">Multimodal Modes</a>
-                    <a href="{{ route('home') }}#services" class="hover:text-brand-sky transition-colors">Service Levels</a>
+                    <a href="{{ route('home') }}#multimodal" class="hover:text-brand-sky transition-colors">{{ __('Multimodal Modes') }}</a>
+                    <a href="{{ route('home') }}#services" class="hover:text-brand-sky transition-colors">{{ __('Service Levels') }}</a>
                     <a href="{{ route('home') }}#sustainability" class="hover:text-brand-emerald transition-colors flex items-center gap-1">
                         <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
-                        Sustainability (CO₂e)
+                        {{ __('Sustainability (CO₂e)') }}
                     </a>
                 </nav>
 
-                <!-- Auth / Portal CTA -->
+                <!-- Auth / Portal CTA & Language Switcher -->
                 <div class="flex items-center gap-3">
+                    <x-language-switcher />
+
                     @auth
                         <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isOperator() ? route('operator.dashboard') : route('customer.dashboard')) }}" 
                            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-brand-navy text-white hover:bg-slate-800 transition-colors shadow-sm">
-                            <span>Portal Dashboard</span>
+                            <span>{{ __('Portal Dashboard') }}</span>
                             <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-brand-sky text-white">
                                 {{ auth()->user()->role }}
                             </span>
@@ -65,7 +67,7 @@
                         <a href="{{ route('login') }}" 
                            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-brand-sky text-white hover:bg-sky-700 transition-all shadow-sm shadow-sky-600/20 hover:shadow-sky-600/30">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-                            Log In / Demo Portal
+                            {{ __('Log In / Demo Portal') }}
                         </a>
                     @endauth
                 </div>
@@ -105,49 +107,63 @@
                 <div class="md:col-span-2 space-y-4">
                     <x-logo class="h-9 w-auto" :light="true" />
                     <p class="text-sm text-slate-400 max-w-md leading-relaxed">
-                        Global Multimodal Freight Visibility Platform designed to track sea, land, and air cargo across international corridors. Combining real-time transport leg status, delivery service levels, exception handling, and auditable carbon emission estimates.
+                        {{ __('Global Multimodal Freight Visibility Platform designed to track sea, land, and air cargo across international corridors. Combining real-time transport leg status, delivery service levels, exception handling, and auditable carbon emission estimates.') }}
                     </p>
                     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs text-brand-teal font-medium">
                         <svg class="w-4 h-4 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                        Tagline: Track Every Journey. Move Toward a Greener Future.
+                        {{ __('Tagline: Track Every Journey. Move Toward a Greener Future.') }}
                     </div>
                 </div>
 
                 <!-- Col 2: Service Levels -->
                 <div>
-                    <h4 class="text-xs font-semibold text-white uppercase tracking-wider mb-4">Service Levels</h4>
+                    <h4 class="text-xs font-semibold text-white uppercase tracking-wider mb-4">{{ __('Service Levels') }}</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">Door-to-Door (Final Mile)</a></li>
-                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">Door-to-Port (Terminal Discharged)</a></li>
-                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">Port-to-Port (Ocean/Air Terminal)</a></li>
-                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">B2B Warehouse Fulfillment</a></li>
+                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">{{ __('B2B / Warehouse Delivery') }}</a></li>
+                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">{{ __('Door-to-Port (Terminal Discharged)') }}</a></li>
+                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">{{ __('Port-to-Port (Ocean/Air Terminal)') }}</a></li>
+                        <li><a href="{{ route('home') }}#services" class="hover:text-white transition-colors">{{ __('B2B Warehouse Fulfillment') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 3: Academic & Compliance -->
                 <div>
-                    <h4 class="text-xs font-semibold text-white uppercase tracking-wider mb-4">Academic Project Deliverable</h4>
+                    <h4 class="text-xs font-semibold text-white uppercase tracking-wider mb-4">{{ __('Academic Project Deliverable') }}</h4>
                     <p class="text-xs text-slate-400 leading-relaxed mb-3">
-                        EcoHorizon Global is engineered as a realistic, functional, and secure university final project (UAS). Built with Laravel 11, Tailwind CSS, Leaflet Maps, and GLEC Framework carbon accounting.
+                        {{ __('EcoHorizon Global is engineered as a realistic, functional, and secure university final project (UAS). Built with Laravel 11, Tailwind CSS, Leaflet Maps, and GLEC Framework carbon accounting.') }}
                     </p>
                     <div class="text-[11px] text-slate-500">
-                        Default Demo Accounts available on Login screen.
+                        {{ __('Default Demo Accounts available on Login screen.') }}
                     </div>
                 </div>
             </div>
 
             <!-- Bottom Bar -->
             <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-                <p>&copy; {{ date('Y') }} EcoHorizon Global. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} EcoHorizon Global. {{ __('All rights reserved.') }}</p>
                 <div class="flex items-center gap-4">
                     <span class="inline-flex items-center gap-1.5 text-emerald-400">
                         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        System Operational & Emissions Engine Online
+                        {{ __('System Operational & Emissions Engine Online') }}
                     </span>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Auto-focus tracking search bar if navigation targets #track -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '#track') {
+                setTimeout(() => {
+                    const searchInput = document.getElementById('tracking-search-input');
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                }, 200);
+            }
+        });
+    </script>
 </body>
 </html>
 

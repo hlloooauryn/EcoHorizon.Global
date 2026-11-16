@@ -9,6 +9,7 @@ use App\Http\Controllers\Customer\DashboardController as CustomerDashboardContro
 use App\Http\Controllers\DeliveryConfirmationController;
 use App\Http\Controllers\DeliveryExceptionController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InternalTrackingController;
 use App\Http\Controllers\Operator\DashboardController as OperatorDashboardController;
 use App\Http\Controllers\PublicTrackingController;
 use App\Http\Controllers\ShipmentController;
@@ -18,14 +19,32 @@ use App\Http\Controllers\TransportLegController;
 use Illuminate\Support\Facades\Route;
 
 // =============================================================================
-// PUBLIC GUEST ROUTES
+// PUBLIC GUEST & LOCALIZATION ROUTES
 // =============================================================================
+Route::get('/lang/{locale}', function (string $locale, \Illuminate\Http\Request $request) {
+    if (in_array($locale, ['en', 'id'], true)) {
+        session(['locale' => $locale]);
+        session()->save();
+        cookie()->queue(cookie('locale', $locale, 60 * 24 * 365, null, null, false, false));
+        app()->setLocale($locale);
+    }
+
+    $referer = $request->header('referer');
+    if ($referer && !str_contains($referer, '/lang/')) {
+        return redirect()->to($referer);
+    }
+
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/track/{tracking_number}', [PublicTrackingController::class, 'show'])->name('track.show');
 Route::get('/track-search', [PublicTrackingController::class, 'search'])->name('track.search');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // =============================================================================
@@ -54,6 +73,9 @@ Route::middleware('auth')->group(function () {
 
     // Sustainability Engine View
     Route::get('/sustainability', [SustainabilityController::class, 'index'])->name('sustainability.index');
+
+    // Freight Tracking Console (Internal Cockpit for Admin, Operator, and Customer)
+    Route::get('/tracking/{tracking_number?}', [InternalTrackingController::class, 'index'])->name('tracking.index');
 
     // -------------------------------------------------------------------------
     // ADMINISTRATOR PORTAL

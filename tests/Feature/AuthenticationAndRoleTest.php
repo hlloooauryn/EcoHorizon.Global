@@ -77,7 +77,7 @@ class AuthenticationAndRoleTest extends TestCase
     {
         // 1. Admin login
         $responseAdmin = $this->post('/login', [
-            'email' => 'admin@ecohorizon.test',
+            'email' => 'admin@ecohorizon.com',
             'password' => 'password123',
         ]);
         $responseAdmin->assertRedirect(route('admin.dashboard'));
@@ -86,7 +86,7 @@ class AuthenticationAndRoleTest extends TestCase
         // 2. Staff (Operator) login
         $this->post('/logout');
         $responseStaff = $this->post('/login', [
-            'email' => 'operator@ecohorizon.test',
+            'email' => 'operator@ecohorizon.com',
             'password' => 'password123',
         ]);
         $responseStaff->assertRedirect(route('operator.dashboard'));
@@ -95,11 +95,31 @@ class AuthenticationAndRoleTest extends TestCase
         // 3. User (Customer) login
         $this->post('/logout');
         $responseUser = $this->post('/login', [
-            'email' => 'customer@globalcargo.test',
+            'email' => 'customer@globalcargo.com',
             'password' => 'password123',
         ]);
         $responseUser->assertRedirect(route('customer.dashboard'));
         $this->assertAuthenticated();
+    }
+
+    public function test_customer_can_register_new_account()
+    {
+        $response = $this->post('/register', [
+            'name' => 'Budi Santoso',
+            'email' => 'budi@santoso-logistics.com',
+            'company_name' => 'Santoso Global Trade',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertRedirect(route('customer.dashboard'));
+        $this->assertAuthenticated();
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'budi@santoso-logistics.com',
+            'role' => 'customer',
+            'company_name' => 'Santoso Global Trade',
+        ]);
     }
 }
 

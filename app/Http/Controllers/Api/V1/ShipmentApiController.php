@@ -91,7 +91,7 @@ class ShipmentApiController extends Controller
         $validated = $request->validate([
             'customer_user_id' => ['nullable', 'exists:users,id'],
             'service_level_id' => ['required', 'exists:service_levels,id'],
-            'destination_type' => ['required', 'string', 'in:door_address,seaport_terminal,airport_terminal,business_warehouse,fulfillment_center'],
+            'destination_type' => ['required', 'string', 'in:seaport_terminal,airport_terminal,business_warehouse,fulfillment_center'],
             'origin_location_id' => ['required', 'exists:locations,id'],
             'destination_location_id' => ['required', 'exists:locations,id', 'different:origin_location_id'],
             'sender_business_name' => ['required', 'string', 'max:255'],

@@ -47,7 +47,7 @@ class CarbonCalculationTest extends TestCase
         $factorSea = CarbonEmissionFactor::where('transport_mode', 'sea')->where('is_default', true)->first();
         $this->assertNotNull($factorSea);
 
-        $doorToDoor = ServiceLevel::where('code', 'DOOR_TO_DOOR')->first();
+        $b2bLevel = ServiceLevel::where('code', 'B2B')->first();
         $loc1 = Location::first();
         $loc2 = Location::skip(1)->first();
 
@@ -57,8 +57,8 @@ class CarbonCalculationTest extends TestCase
 
         $shipment = Shipment::create([
             'tracking_number' => TrackingNumberGenerator::generate(),
-            'service_level_id' => $doorToDoor->id,
-            'destination_type' => 'door_address',
+            'service_level_id' => $b2bLevel->id,
+            'destination_type' => 'business_warehouse',
             'origin_location_id' => $loc1->id,
             'destination_location_id' => $loc2->id,
             'sender_business_name' => 'Shipper A',

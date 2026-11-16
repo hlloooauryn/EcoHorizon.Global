@@ -105,7 +105,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"operator@ecohorizon.test\",\n    \"password\": \"password123\",\n    \"device_name\": \"Postman Integration Test\"\n}"
+              "raw": "{\n    \"email\": \"operator@ecohorizon.com\",\n    \"password\": \"password123\",\n    \"device_name\": \"Postman Integration Test\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
